@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   CheckCircle2,
+  Image as ImageIcon,
   ImagePlus,
   Loader2,
   Pencil,
@@ -17,16 +18,6 @@ import {
 import type { MenuItem } from "@/lib/types";
 import { formatVND } from "@/lib/data";
 
-const PRESET_IMAGES = [
-  { label: "Xoài Macchiato", src: "/images/tra-xoai-macchiato.jpg" },
-  { label: "Trà Ô Long", src: "/images/tra-o-long.jpg" },
-  { label: "Trà Nhài Sữa", src: "/images/tra-nhai-sua.jpg" },
-  { label: "Trân Châu Đường Đen", src: "/images/tra-sua-tran-chau.jpg" },
-  { label: "Matcha Kem Cheese", src: "/images/matcha-kem-cheese.jpg" },
-  { label: "Trà Đào Cam Sả", src: "/images/tra-dao-cam-sa.jpg" },
-  { label: "Hồng Trà Kem Muối", src: "/images/hong-tra-kem-muoi.jpg" },
-];
-
 interface MenuManagerProps {
   items: MenuItem[];
 }
@@ -36,7 +27,7 @@ export function MenuManager({ items }: MenuManagerProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("/images/tra-xoai-macchiato.jpg");
+  const [image, setImage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -56,7 +47,7 @@ export function MenuManager({ items }: MenuManagerProps) {
     setEditingId(null);
     setName("");
     setPrice("");
-    setImage("/images/tra-xoai-macchiato.jpg");
+    setImage("");
     setError(null);
   }
 
@@ -141,7 +132,7 @@ export function MenuManager({ items }: MenuManagerProps) {
       setEditingId(null);
       setName("");
       setPrice("");
-      setImage("/images/tra-xoai-macchiato.jpg");
+      setImage("");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Đã có lỗi xảy ra.");
@@ -160,17 +151,6 @@ export function MenuManager({ items }: MenuManagerProps) {
               <h2 className="text-lg font-bold text-tea-900">
                 {isEditing ? "Chỉnh sửa món" : "Thêm món mới"}
               </h2>
-              <p className="mt-1 text-xs text-cream-700">
-                Gọi{" "}
-                <code className="rounded bg-cream-200 px-1 py-0.5">
-                  {isEditing ? "PUT /api/menu" : "POST /api/menu"}
-                </code>{" "}
-                kèm{" "}
-                <code className="rounded bg-cream-200 px-1 py-0.5">
-                  revalidatePath(&apos;/&apos;)
-                </code>
-                .
-              </p>
             </div>
             {isEditing && (
               <button
@@ -228,15 +208,19 @@ export function MenuManager({ items }: MenuManagerProps) {
                 Ảnh món
               </label>
               <div className="flex items-center gap-3 rounded-xl border border-cream-300 bg-white p-2.5">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-cream-200 bg-cream-100">
-                  <Image
-                    src={image}
-                    alt={name || "Ảnh xem trước"}
-                    fill
-                    sizes="56px"
-                    unoptimized={image.startsWith("data:")}
-                    className="object-cover"
-                  />
+                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-cream-200 bg-cream-100">
+                  {image ? (
+                    <Image
+                      src={image}
+                      alt={name || "Ảnh xem trước"}
+                      fill
+                      sizes="56px"
+                      unoptimized={image.startsWith("data:")}
+                      className="object-cover"
+                    />
+                  ) : (
+                    <ImageIcon className="h-6 w-6 text-cream-500" />
+                  )}
                 </div>
                 <div className="flex-1">
                   <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-tea-100 px-3 py-1.5 text-xs font-semibold text-tea-900 transition-colors hover:bg-tea-200">
@@ -249,34 +233,7 @@ export function MenuManager({ items }: MenuManagerProps) {
                       className="hidden"
                     />
                   </label>
-                  <p className="mt-1 text-[11px] text-cream-600">
-                    Hoặc chọn nhanh ảnh mẫu bên dưới:
-                  </p>
                 </div>
-              </div>
-
-              <div className="mt-2 grid grid-cols-7 gap-1.5">
-                {PRESET_IMAGES.map((preset) => (
-                  <button
-                    key={preset.src}
-                    type="button"
-                    title={preset.label}
-                    onClick={() => setImage(preset.src)}
-                    className={`relative aspect-square cursor-pointer overflow-hidden rounded-lg border-2 transition-all ${
-                      image === preset.src
-                        ? "border-tea-900 ring-2 ring-champagne-400"
-                        : "border-transparent opacity-75 hover:opacity-100"
-                    }`}
-                  >
-                    <Image
-                      src={preset.src}
-                      alt={preset.label}
-                      fill
-                      sizes="48px"
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
               </div>
             </div>
 
@@ -375,15 +332,19 @@ export function MenuManager({ items }: MenuManagerProps) {
                         {index + 1}
                       </td>
                       <td className="px-4 py-3">
-                        <div className="relative h-11 w-11 overflow-hidden rounded-xl border border-cream-200 bg-cream-100">
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fill
-                            sizes="44px"
-                            unoptimized={item.image.startsWith("data:")}
-                            className="object-cover"
-                          />
+                        <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-cream-200 bg-cream-100">
+                          {item.image ? (
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fill
+                              sizes="44px"
+                              unoptimized={item.image.startsWith("data:")}
+                              className="object-cover"
+                            />
+                          ) : (
+                            <ImageIcon className="h-5 w-5 text-cream-500" />
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-3 font-bold text-tea-900">

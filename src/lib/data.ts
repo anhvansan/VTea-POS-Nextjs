@@ -93,7 +93,7 @@ export function addMenuItem(input: {
     description:
       input.description?.trim() ||
       "Hương vị trà trái cây tươi mới, pha chế chuẩn vị VTea.",
-    image: input.image || "/images/tra-xoai-macchiato.jpg",
+    image: input.image?.trim() || "",
     badge: "Mới",
   };
   store.menu.unshift(newItem);

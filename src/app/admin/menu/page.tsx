@@ -12,10 +12,10 @@ export default function AdminMenuPage() {
         <div>
           <div className="inline-flex items-center gap-1.5 rounded-full bg-tea-100 px-3 py-1 text-xs font-semibold text-tea-800">
             <UtensilsCrossed className="h-3.5 w-3.5 text-tea-600" />
-            <span>Quản trị thực đơn</span>
+            <span>Quản lý thực đơn</span>
           </div>
           <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-tea-900 sm:text-3xl">
-            Quản lý Thực đơn VTea
+            Quản lý Thực đơn
           </h1>
         </div>
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Sparkles } from "lucide-react";
+import { Image as ImageIcon, Sparkles } from "lucide-react";
 import { formatVND, getMenuItems } from "@/lib/data";
 import { CartProvider } from "@/components/pos/CartContext";
 import { AddToCartButton } from "@/components/pos/AddToCartButton";
@@ -35,15 +35,19 @@ export default function PosPage() {
                 key={item.id}
                 className="group flex flex-col overflow-hidden rounded-2xl border border-cream-300 bg-cream-50 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-elevated"
               >
-                <div className="relative aspect-square w-full overflow-hidden bg-cream-100">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                    unoptimized={item.image.startsWith("data:")}
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-cream-100">
+                  {item.image ? (
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                      unoptimized={item.image.startsWith("data:")}
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <ImageIcon className="h-12 w-12 stroke-[1.5] text-cream-500" />
+                  )}
                   {item.badge && (
                     <span className="absolute top-3 left-3 rounded-full bg-tea-900/90 px-2.5 py-1 text-[11px] font-semibold text-champagne-300 backdrop-blur-xs">
                       {item.badge}
