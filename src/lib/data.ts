@@ -54,6 +54,108 @@ const INITIAL_MENU: MenuItem[] = [
   },
 ];
 
+const INITIAL_ORDERS: Order[] = [
+  {
+    id: "842910",
+    items: [
+      {
+        menuItemId: "vtea-1",
+        name: "Trà Ô Long",
+        price: 35000,
+        quantity: 2,
+        ice: "50%",
+        sugar: "70%",
+      },
+      {
+        menuItemId: "vtea-4",
+        name: "Matcha Kem Cheese",
+        price: 48000,
+        quantity: 1,
+        ice: "100%",
+        sugar: "70%",
+      },
+    ],
+    totalAmount: 118000,
+    createdAt: new Date(Date.now() - 8 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "739415",
+    items: [
+      {
+        menuItemId: "vtea-2",
+        name: "Trà Nhài Sữa",
+        price: 38000,
+        quantity: 2,
+        ice: "Ít đá",
+        sugar: "50%",
+      },
+    ],
+    totalAmount: 76000,
+    createdAt: new Date(Date.now() - 24 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "615824",
+    items: [
+      {
+        menuItemId: "vtea-3",
+        name: "Trà Sữa Trân Châu Đường Đen",
+        price: 45000,
+        quantity: 2,
+        ice: "100%",
+        sugar: "100%",
+      },
+      {
+        menuItemId: "vtea-5",
+        name: "Trà Đào Cam Sả",
+        price: 40000,
+        quantity: 1,
+        ice: "50%",
+        sugar: "70%",
+      },
+    ],
+    totalAmount: 130000,
+    createdAt: new Date(Date.now() - 52 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "508271",
+    items: [
+      {
+        menuItemId: "vtea-6",
+        name: "Hồng Trà Kem Muối",
+        price: 39000,
+        quantity: 1,
+        ice: "50%",
+        sugar: "50%",
+      },
+      {
+        menuItemId: "vtea-1",
+        name: "Trà Ô Long",
+        price: 35000,
+        quantity: 1,
+        ice: "100%",
+        sugar: "70%",
+      },
+    ],
+    totalAmount: 74000,
+    createdAt: new Date(Date.now() - 95 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "491603",
+    items: [
+      {
+        menuItemId: "vtea-4",
+        name: "Matcha Kem Cheese",
+        price: 48000,
+        quantity: 2,
+        ice: "Ít đá",
+        sugar: "70%",
+      },
+    ],
+    totalAmount: 96000,
+    createdAt: new Date(Date.now() - 140 * 60 * 1000).toISOString(),
+  },
+];
+
 interface VTeaStore {
   menu: MenuItem[];
   orders: Order[];
@@ -67,7 +169,7 @@ function getStore(): VTeaStore {
   if (!globalForVTea.__vteaStore) {
     globalForVTea.__vteaStore = {
       menu: [...INITIAL_MENU],
-      orders: [],
+      orders: [...INITIAL_ORDERS],
     };
   }
   return globalForVTea.__vteaStore;

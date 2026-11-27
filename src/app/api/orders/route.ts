@@ -3,7 +3,14 @@ import { createOrder, getOrders } from "@/lib/data";
 import type { OrderItem } from "@/lib/types";
 
 export async function GET() {
-  return NextResponse.json({ orders: getOrders() });
+  const orders = getOrders();
+  const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+
+  return NextResponse.json({
+    orders,
+    totalOrders: orders.length,
+    totalRevenue,
+  });
 }
 
 export async function POST(request: Request) {

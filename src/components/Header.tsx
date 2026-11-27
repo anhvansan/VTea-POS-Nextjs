@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CupSoda, LayoutGrid, UtensilsCrossed } from "lucide-react";
+import { BarChart3, CupSoda, LayoutGrid, UtensilsCrossed } from "lucide-react";
 
 export function Header() {
   return (
@@ -30,6 +30,13 @@ export function Header() {
           >
             <LayoutGrid className="h-4 w-4 text-champagne-400" />
             <span>Bán hàng POS</span>
+          </Link>
+          <Link
+            href="/statistics"
+            className="inline-flex items-center gap-2 rounded-xl border border-tea-700 bg-tea-950/50 px-3.5 py-2 text-sm font-medium text-cream-100 transition-colors hover:border-champagne-500/60 hover:bg-tea-800"
+          >
+            <BarChart3 className="h-4 w-4 text-champagne-400" />
+            <span>Thống kê</span>
           </Link>
           <Link
             href="/admin/menu"
