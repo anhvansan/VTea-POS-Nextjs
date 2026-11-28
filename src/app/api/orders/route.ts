@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createOrder, getOrders } from "@/lib/data";
+import { encodeOrderCookie, LAST_ORDER_COOKIE } from "@/lib/orderCookie";
 import type { OrderItem } from "@/lib/types";
 
 export async function GET() {
@@ -38,7 +39,14 @@ export async function POST(request: Request) {
         : computedTotal;
 
     const order = createOrder({ items, totalAmount });
-    return NextResponse.json(order, { status: 201 });
+    const response = NextResponse.json(order, { status: 201 });
+    response.cookies.set(LAST_ORDER_COOKIE, encodeOrderCookie(order), {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24,
+    });
+    return response;
   } catch {
     return NextResponse.json(
       { error: "Không thể tạo đơn hàng." },

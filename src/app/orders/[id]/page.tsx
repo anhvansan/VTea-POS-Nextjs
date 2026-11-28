@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CheckCircle2, Clock, ReceiptText } from "lucide-react";
 import { formatVND, getOrderById } from "@/lib/data";
+import { decodeOrderCookie, LAST_ORDER_COOKIE } from "@/lib/orderCookie";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +15,17 @@ export default async function OrderReceiptPage({
   params,
 }: OrderReceiptPageProps) {
   const { id } = await params;
-  const order = getOrderById(id);
+  let order = getOrderById(id);
+
+  if (!order) {
+    const cookieStore = await cookies();
+    const fallbackOrder = decodeOrderCookie(
+      cookieStore.get(LAST_ORDER_COOKIE)?.value
+    );
+    if (fallbackOrder?.id === id) {
+      order = fallbackOrder;
+    }
+  }
 
   if (!order) {
     notFound();
